@@ -1,0 +1,40 @@
+﻿@model BookLibrary.ModelViews.LoginViewModel;
+
+@{
+    ViewData["Title"] = "Đăng nhập";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+    <div class="col-md-5" style="box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); background-color: #fff; border-radius: 8px; padding: 40px; margin: 100px;">
+        <div class="card p-4">
+            <div class="card-body">
+                <h3 class="mb-3 font-weight-bold text-center">Đăng nhập</h3>
+
+                <form asp-action="Login">
+                    <div class="form-group">
+                        <label asp-for="UserName" class="text-secondary">Họ và tên</label>
+                        <input asp-for="UserName" class="form-control" placeholder="Nhập họ và tên" />
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mt-2">
+                        <label asp-for="Password" class="text-secondary">Mật khẩu</label>
+                        <input asp-for="Password" class="form-control" placeholder="Nhập mật khẩu" type="password" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                        <div class="text-right mt-1">
+                            <a href="auth-recover-pwd.html">Quên mật khẩu?</a>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block mt-3" style="margin-bottom: 10px; padding: 10px;">Đăng nhập</button>
+                    <p class="mb-0 text-center mt-3">Chưa có tài khoản? <a href="register.html">Đăng ký ngay!</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Only include necessary scripts -->
+<script src="../assets/js/backend-bundle.min.js"></script>
+<script src="../assets/js/app.js"></script>

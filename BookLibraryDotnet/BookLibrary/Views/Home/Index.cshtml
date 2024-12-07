@@ -1,0 +1,192 @@
+﻿@model BookLibrary.ModelViews.HomeViewVM
+@{
+	ViewData["Title"] = "Thư viện bán sách";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	List<Product> allProduct = ViewBag.AllProducts;
+
+}
+<body>
+	<div id="tg-wrapper" class="tg-parallax tg-haslayout">
+		<!-- Inner Banner Start -->
+		<div class="tg-innerbanner tg-haslayout tg-parallax tg-bginnerbanner"
+			 data-z-index="-20"
+			 data-appear-top-offset="600"
+			 data-parallax="scroll"
+			 style="background-image: url('https://nhadepso.com/wp-content/uploads/2023/03/101-hinh-nen-sach-dep-an-tuong-cho-may-tinh-hoac-dien-thoai_4.jpg');
+                background-size: cover;
+                background-position: center;
+                min-height: 400px;
+                display: flex;
+                justify-content: center;
+                align-items: center;">
+
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<div class="tg-innerbannercontent">
+							<h1>Trang chủ</h1>
+							<ol class="tg-breadcrumb">
+								<li class="tg-active">Trang chủ</li>
+								<li><a href="/BookList.html">Cửa hàng</a></li>
+								
+							</ol>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Main Content Start -->
+		<main id="tg-main" class="tg-main tg-haslayout">
+			<div class="container mt-4">
+				<h4 class="text-center btn-outline" style="margin-bottom: 20px; margin-top: 20px; font-size: 16px; color: #28a745; border: 2px solid #28a745; border-radius: 5px; padding: 10px; background-color: white;">
+					Các thể loại sách
+				</h4>
+
+				<!-- Navigation Tabs for Product Categories -->
+				<ul class="nav nav-tabs" role="tablist" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 0px;">
+					@foreach (var item in Model.Products)
+					{
+						<li class="nav-item" role="presentation" style="flex: 1 1">
+							<a id="tab-@item.category.Alias" data-bs-toggle="tab" href="@item.category.Alias" role="tab"
+							   class="nav-link custom-tab"
+							   style="padding: 10px; border-radius: 10px; background-color: #ffffff; border: 1px solid #28a745; color: #28a745; display: flex; align-items: center; justify-content: center; flex-direction: column; height: 100%; transition: background-color 0.3s, transform 0.3s; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); min-height: 100px;">
+								<img src="@Url.Content(item.category.Thumb)" alt="@item.category.CatName"
+									 style="width: 40px; height: 40px; margin-bottom: 8px; border-radius: 50%;" />
+								<span style="font-weight: bold; font-size: 14px;">@item.category.CatName</span>
+							</a>
+						</li>
+					}
+				</ul>
+
+
+				<!-- Product List Section -->
+				<div class="tg-sectionspace tg-haslayout py-5 bg-light">
+					<div class="container">
+						<div class="row justify-content-center">
+							<!-- Product Content -->
+							<div class="col-16">
+								<div id="tg-content" class="tg-content">
+									<div class="tg-products">
+										<div class="text-center mb-4">
+											<h4 class="title-border">Những cuốn sách hay bạn có thể đọc</h4>
+										</div>
+										<!-- Render danh sách tất cả sản phẩm -->
+										@await Html.PartialAsync("_ListProductPartialView", allProduct)
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+		</main>
+		<!-- Main Content End -->
+	</div>
+
+	<section class="tg-parallax tg-bgcollectioncount tg-haslayout"
+			 data-z-index="-100"
+			 data-appear-top-offset="600"
+			 data-parallax="scroll"
+			 style="background-image: url('https://png.pngtree.com/thumb_back/fh260/background/20230424/pngtree-book-and-glasses-next-to-a-cup-of-coffee-image_2558408.jpg');
+                background-size: cover;
+                background-position: center;
+                background-attachment: fixed;
+                min-height: 400px;
+                display: flex;
+                justify-content: center;
+                align-items: center;">
+
+
+
+		<div class="tg-sectionspace tg-collectioncount tg-haslayout">
+			<div class="container">
+				<div class="row">
+					<div id="tg-collectioncounters" class="tg-collectioncounters">
+						<div class="tg-collectioncounter tg-drama">
+							<div class="tg-collectioncountericon">
+								<i class="icon-bubble"></i>
+							</div>
+							<div class="tg-titlepluscounter">
+								<h2>Explore the Unknown</h2>
+
+							</div>
+						</div>
+						<div class="tg-collectioncounter tg-horror">
+							<div class="tg-collectioncountericon">
+								<i class="icon-heart-pulse"></i>
+							</div>
+							<div class="tg-titlepluscounter">
+								<h2>Expand Your Horizons</h2>
+
+							</div>
+						</div>
+						<div class="tg-collectioncounter tg-romance">
+							<div class="tg-collectioncountericon">
+								<i class="icon-heart"></i>
+							</div>
+							<div class="tg-titlepluscounter">
+								<h2>Knowledge is Power</h2>
+
+							</div>
+						</div>
+						<div class="tg-collectioncounter tg-fashion">
+							<div class="tg-collectioncountericon">
+								<i class="icon-star"></i>
+							</div>
+							<div class="tg-titlepluscounter">
+								<h2>Ignite Your Curiosity</h2>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<style>
+		.tg-parallax {
+			position: relative;
+			overflow: hidden;
+			background-attachment: fixed;
+		}
+
+		.tg-bgcollectioncount {
+
+			padding: 50px 0; 
+		}
+		.nav-link {
+			overflow: hidden;
+			text-align: center;
+			transition: background-color 0.3s, transform 0.3s;
+			height: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+			.nav-link:hover {
+				background-color: #e7f1ff;
+				transform: translateY(-3px);
+				box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+			}
+
+		.nav-item {
+			height: 96px;
+			min-width: 160px;
+		}
+
+		.tg-parallax {
+			position: relative;
+			overflow: hidden;
+		}
+	</style>
+
+
+
+
+</body>
+
+			

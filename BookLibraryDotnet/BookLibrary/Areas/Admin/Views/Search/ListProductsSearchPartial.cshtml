@@ -1,0 +1,78 @@
+﻿@model List<Product>
+
+@if (Model != null && Model.Count > 0)
+{
+    foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.ProductId</td>
+            <td>
+                <div class="d-flex align-items-center">
+                    <img class="img-fluid rounded" src="@item.Thumb" style="max-width: 60px" alt="@item.ProductName" />
+                    <h6 class="m-b-0 m-l-2">@item.ProductName</h6>
+                </div>
+            </td>
+            <td>@item.AuthorName</td>
+            <td>@item.Cat?.CatName</td> <!-- Thể loại -->
+            <td>@item.Price</td>
+            <td>@item.UnitslnStock</td>
+            <td>
+                @if (item.UnitslnStock.HasValue && item.UnitslnStock.Value > 0)
+                {
+                    <div class="badge badge-success">In Stock</div>
+                }
+                else
+                {
+                    <div class="badge badge-danger">Out of Stock</div>
+                }
+            </td>
+            <td class="text-align-end">
+                <div class="d-flex justify-content-end">
+                    <!-- Nút View -->
+                    <a href="@Url.Action("Details", "AdminProducts", new { id = item.ProductId })" class="btn btn-outline-primary mr-1" data-toggle="tooltip" title="Xem">
+                        <i class="bi bi-eye"></i> Xem
+                    </a>
+
+                    <!-- Nút Sửa -->
+                    <a href="@Url.Action("Edit", "AdminProducts", new { id = item.ProductId })" class="btn btn-outline-warning mr-1" data-toggle="tooltip" title="Sửa">
+                        <i class="bi bi-pencil"></i> Sửa
+                    </a>
+
+                    <!-- Nút Xóa -->
+                    <button class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteModal-@item.ProductId" data-toggle="tooltip" title="Xóa">
+                        <i class="bi bi-trash"></i> Xóa
+                    </button>
+                </div>
+
+                <!-- Modal xác nhận xóa -->
+                <div class="modal fade" id="deleteModal-@item.ProductId" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel-@item.ProductId" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteModalLabel-@item.ProductId">Xác nhận xóa sản phẩm</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Bạn có chắc chắn muốn xóa sản phẩm "@item.ProductName" không?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                <form method="post" asp-action="Delete" asp-route-id="@item.ProductId">
+                                    <button type="submit" class="btn btn-danger">Xóa</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    }
+}
+else
+{
+    <tr>
+        <td colspan="8" class="text-center">Không có sản phẩm nào để hiển thị.</td>
+    </tr>
+}

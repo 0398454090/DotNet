@@ -1,0 +1,135 @@
+﻿@model BookLibrary.Models.Page
+
+@{
+    ViewData["Title"] = "Tạo mới";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Styles {
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet" />
+}
+
+<div class="main-content">
+    <div class="page-header">
+        <div class="header-sub-title">
+            <nav class="breadcrumb breadcrumb-dash">
+                <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item">
+                    <i class="anticon anticon-home"></i> Trang chủ
+                </a>
+                <a class="breadcrumb-item" asp-area="Admin" asp-controller="AdminPages" asp-action="Index">
+                    Danh sách trang
+                </a>
+                <span class="breadcrumb-item active">Tạo mới PAGE</span>
+            </nav>
+        </div>
+    </div>
+
+    <form asp-controller="AdminPages" asp-action="Create" method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        <div class="text-danger">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        </div>
+
+        <!-- Tab navigation -->
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#product-edit-basic">THÔNG TIN PAGE</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#product-edit-option">THÔNG TIN SEO</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#product-edit-description">MÔ TẢ</a>
+            </li>
+        </ul>
+
+        <!-- Tab content -->
+        <div class="tab-content m-t-15">
+            <div class="tab-pane fade show active" id="product-edit-basic">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Page Name -->
+                        <div class="form-group">
+                            <label class="font-weight-semibold" for="PageName">Tên Page</label>
+                            <input type="text" class="form-control" asp-for="PageName" />
+                        </div>
+
+                        <!-- Ordering -->
+                        <div class="form-group">
+                            <label class="font-weight-semibold" for="Ordering">Ordering</label>
+                            <input type="number" class="form-control" asp-for="Ordering" />
+                        </div>
+
+                        <!-- Thumbnail -->
+                        <div class="form-group">
+                            <label class="font-weight-semibold" for="Thumb">Ảnh đại diện</label>
+                            <input type="file" class="form-control-file" name="fThumb" asp-for="Thumb" />
+                            <span asp-validation-for="Thumb" class="text-danger"></span>
+                        </div>
+
+                        <!-- Published -->
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" asp-for="Published" />
+                            <label class="form-check-label" for="Published">Public</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEO Info Tab -->
+      
+            <div class="tab-pane fade" id="product-edit-option">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- SEO Title -->
+                        <div class="form-group">
+                            <label class="font-weight-semibold" for="SEOTitle">Title</label>
+                            <input type="text" class="form-control" asp-for="Title" />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="font-weight-semibold" for="SEOTitle">Alias</label>
+                            <input type="text" class="form-control" asp-for="Alias" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Description Tab with Summernote -->
+            <div class="tab-pane fade" id="product-edit-description">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="font-weight-semibold" for="Contents">Mô tả</label>
+                            <textarea class="summernote form-control" asp-for="Contents"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-success">Lưu thay đổi</button>
+    </form>
+</div>
+
+@section Scripts {
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Initialize Summernote editor
+            $('.summernote').summernote({
+                fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New'],
+                styleTags: ['p', 'h1', 'h2', 'h3', 'h4', 'h5'],
+                height: 200,
+                minHeight: null,
+                maxHeight: null,
+                focus: true
+            });
+        });
+    </script>
+}

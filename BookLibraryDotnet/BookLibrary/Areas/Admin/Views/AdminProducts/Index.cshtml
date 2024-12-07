@@ -1,0 +1,206 @@
+﻿@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<BookLibrary.Models.Product>
+
+@{
+    int CurrentPage = ViewBag.CurrentPage;
+    ViewData["Title"] = "Danh sách sản phẩm - Trang " + CurrentPage;
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="main-content">
+    <div class="page-header">
+        <div class="header-sub-title">
+            <nav class="breadcrumb breadcrumb-dash">
+                <a asp-area="Admin" asp-controller="AdminProducts" asp-action="Index" class="breadcrumb-item">
+                    <i class="anticon anticon-home m-r-5"></i>Home
+                </a>
+                <span class="breadcrumb-item active">Danh sách sản phẩm - Trang @CurrentPage</span>
+            </nav>
+        </div>
+    </div>
+
+    <div class="card">
+   
+        <div class="card-body">
+ 
+            <div class="row m-b-30">
+    
+                <div class="col-lg-12">
+
+                    <div class="d-md-flex justify-content-between align-items-center">
+                        <div class="d-md-flex align-items-center mb-2">
+                            <div class="m-b-10 mr-2">
+                                <div class="input-group">
+                                    <input type="text" id="keyword" name="keyword" placeholder="Tìm kiếm sản phẩm" class="form-control" />
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="m-b-10 mr-2">
+                                <select class="custom-select" id="txtCatID" name="txtCatID" style="min-width: 180px" asp-items="ViewBag.DanhMuc">
+                                    <option value="">Chọn thể loại</option>
+                                    <option value="all">All</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="m-b-10">
+                            <a href="@Url.Action("Create", "AdminProducts")" class="btn btn-primary">Thêm Sản Phẩm</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <table class="table table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Tên tác giả</th>
+                        <th>Thể loại</th>
+                        <th>Giá</th>
+                        <th>Tồn kho</th>
+                        <th>Trạng thái</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="records_table">
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.ProductId</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img class="img-fluid rounded" src="@item.Thumb" style="max-width: 50px; height: auto;" alt="@item.ProductName" />
+                                        <h6 class="m-b-0 m-l-2">@item.ProductName</h6>
+                                    </div>
+                                </td>
+
+                                <td>@item.AuthorName</td>
+                                <td>@item.Cat?.CatName</td> <!-- Thể loại -->
+                                <td>@item.Price</td>
+                                <td>@item.UnitslnStock</td>
+                                <td>
+                                    @if (item.UnitslnStock.HasValue && item.UnitslnStock.Value > 0)
+                                    {
+                                        <div class="badge badge-success">In Stock</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="badge badge-danger">Out of Stock</div>
+                                    }
+                                </td>
+                                <td class="text-align-end">
+                                    <div class="d-flex justify-content-end">
+                                        <!-- Nút View -->
+                                        <a href="@Url.Action("Details", "AdminProducts", new { id = item.ProductId })" class="btn btn-outline-primary mr-1" data-toggle="tooltip" title="Xem">
+                                            <i class="bi bi-eye"></i> Xem
+                                        </a>
+
+                                        <!-- Nút Sửa -->
+                                        <a href="@Url.Action("Edit", "AdminProducts", new { id = item.ProductId })" class="btn btn-outline-warning mr-1" data-toggle="tooltip" title="Sửa">
+                                            <i class="bi bi-pencil"></i> Sửa
+                                        </a>
+
+                                        <!-- Nút Xóa -->
+                                        <button class="btn btn-outline-danger" data-toggle="modal" data-target="#deleteModal-@item.ProductId" data-toggle="tooltip" title="Xóa">
+                                            <i class="bi bi-trash"></i> Xóa
+                                        </button>
+                                    </div>
+
+                                    <!-- Modal xác nhận xóa -->
+                                    <div class="modal fade" id="deleteModal-@item.ProductId" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel-@item.ProductId" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="deleteModalLabel-@item.ProductId">Xác nhận xóa sản phẩm</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Bạn có chắc chắn muốn xóa sản phẩm "@item.ProductName" không?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                                    <form method="post" asp-action="Delete" asp-route-id="@item.ProductId">
+                                                        <button type="submit" class="btn btn-danger">Xóa</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="8" class="text-center">Không có sản phẩm nào để hiển thị.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <!-- Phân trang -->
+            <div aria-label="Page navigation example">
+                <ul class="pagination">
+                    <pager class="pager-container" list="@Model" asp-area="Admin" asp-controller="AdminProducts" asp-route-CatID="@ViewBag.CurrentCatID" asp-action="Index" />
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            jQuery("#txtCatID").change(function () {
+                var catID = jQuery(this).val(); // Lấy giá trị được chọn
+
+                // Đặt lại giá trị được chọn
+                $('#txtCatID option').removeAttr('selected');
+                $('#txtCatID > [value=' + catID + ']').attr("selected", "true");
+
+                // Kiểm tra catID trước khi thực hiện AJAX
+                if (catID === "all" || !isNaN(catID)) {
+                    window.location.href = '@Url.Action("Index", "AdminProducts")?CatID=' + catID;
+                }
+            });
+
+            $("#keyword").on("input", function () {
+                var strkeyword = $('#keyword').val().trim();
+
+                if (strkeyword.length > 0) { // Kiểm tra nếu từ khóa không rỗng
+                    $.ajax({
+                        url: '/Admin/Search/FindProduct/',
+                        datatype: "html",
+                        type: "POST",
+                        data: { keyword: strkeyword },
+                        success: function (results) {
+                            if (results) {
+                                $("#records_table").html(results);
+                            } else {
+                                $("#records_table").html('<tr><td colspan="8" class="text-center">Không có sản phẩm nào để hiển thị.</td></tr>');
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error:', error);
+                            alert('Error occurred while searching.');
+                        }
+                    });
+                } else {
+          
+                }
+            });
+
+
+        });
+    </script>
+}

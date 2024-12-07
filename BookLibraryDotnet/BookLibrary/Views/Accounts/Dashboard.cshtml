@@ -1,0 +1,201 @@
+﻿@model BookLibrary.Models.Customer
+
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Order> DanhSachDonHang = ViewBag.DonHang;
+    BookLibrary.ModelViews.ChangePasswordViewModel changePassword = new BookLibrary.ModelViews.ChangePasswordViewModel();
+
+}<main class="class=" col-xs-12 col-sm-12 col-md-12 col-lg-12"">
+    <div class="account-page-area">
+        <div class="container" style="margin-top: 10px;">
+            <div class="row">
+                <!-- Sidebar -->
+                <div class="col-lg-3 col-md-4 col-sm-12 sidebar">
+                    <ul class="nav myaccount-tab-trigger" id="account-page-tab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="account-dashboard-tab" data-toggle="tab" href="#account-dashboard">Thông tin tài khoản</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" id="account-details-tab" data-toggle="tab" href="#account-details">Thay đổi mật khẩu</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Content -->
+                <div class="col-lg-9 col-md-8 col-sm-12 content">
+                    <div class="tab-content myaccount-tab-content" id="account-page-tab-content">
+
+                        <!-- Tab Dashboard -->
+                        <div class="tab-pane fade" id="account-dashboard" role="tabpanel" aria-labelledby="account-dashboard-tab">
+                            <div class="card">
+                                <div class="profile-box">
+                                    <img src="@Model.Avatar" alt="" class="avatar-100">
+                                    <h4>@Model.FullName</h4>
+                                </div>
+                                <div class="pro-content">
+                                    <p style="display: flex; align-items: center; margin: 8px 0;">
+                                        <i class="fas fa-envelope" style="margin-right: 8px; color: #007bff;"></i>
+                                        @Model.Email
+                                    </p>
+                                    <p style="display: flex; align-items: center; margin: 8px 0;">
+                                        <i class="fas fa-phone" style="margin-right: 8px; color: #007bff;"></i>
+                                        @Model.Phone
+                                    </p>
+                                    <p style="display: flex; align-items: center; margin: 8px 0;">
+                                        <i class="fas fa-map-marker-alt" style="margin-right: 8px; color: #007bff;"></i>
+                                        @Model.Address
+                                    </p>
+                                   
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <!-- Tab Orders -->
+                        <div class="tab-pane fade" id="account-orders" role="tabpanel" aria-labelledby="account-orders-tab">
+                            <div class="myaccount-orders">
+                                <h4>Danh sách đơn hàng</h4>
+                                @await Html.PartialAsync("_DonhangPartialView.cshtml", DanhSachDonHang)
+                            </div>
+                        </div>
+
+                        <!-- Tab Address -->
+                        <div class="tab-pane fade" id="account-address" role="tabpanel" aria-labelledby="account-address-tab">
+                            <h4>Địa chỉ của bạn</h4>
+                            <p>Đây là nội dung của tab địa chỉ.</p>
+                        </div>
+
+                        <!-- Tab Details -->
+                        <div class="tab-pane fade" id="account-details" role="tabpanel" aria-labelledby="account-details-tab">
+                           
+                            @await Html.PartialAsync("_ChangePasswordPartialView.cshtml", changePassword)
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<style>
+    /* Cấu trúc chung */
+   
+
+    /* Tab Content */
+    .tab-content {
+        padding: 15px;
+        background: #fff; /* Nền trắng cho nội dung */
+        border-radius: 5px; /* Bo tròn góc */
+        min-height: 400px; /* Chiều cao tối thiểu */
+        border: 1px solid #ddd; /* Viền mờ xung quanh */
+    }
+
+
+
+    /* Phần hộp thông tin profile */
+    .profile-box {
+        text-align: center; 
+        margin-bottom: 20px;
+    }
+
+        .profile-box img.avatar-100 {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%; 
+            border: 2px solid #28a745; 
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-box h4 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #333;
+        }
+
+    .pro-content p {
+        font-size: 14px;
+        color: #555;
+        line-height: 1.6;
+        margin-bottom: 10px;
+    }
+
+    .myaccount-orders h4 {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: #333;
+    }
+
+  
+    .myaccount-tab-trigger .nav-link {
+        font-size: 16px;
+        padding: 10px 15px;
+        margin-bottom: 5px;
+        color: #28a745;
+        border: 1px solid #28a745;
+        border-radius: 5px;
+        text-align: center;
+        transition: all 0.3s ease-in-out;
+    }
+
+        .myaccount-tab-trigger .nav-link:hover {
+            background: #28a745;
+            color: #fff;
+        }
+
+    
+
+</style>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+<!--
+        <dt class="col-sm-4">
+        Quận
+    </dt>
+    <dd class="col-sm-8">
+@Html.DisplayFor(model => model.District)
+    </dd>
+    <dt class="col-sm-4">
+        Phường
+    </dt>
+    <dd class="col-sm-8">
+@Html.DisplayFor(model => model.Ward)
+    </dd>
+    <dt class="col-sm-4">
+        Ngày Tạo
+    </dt>
+    <dd class="col-sm-8">
+@Html.DisplayFor(model => model.CreateDate)
+    </dd>
+    <dt class="col-sm-4">
+        Lần Đăng Nhập Cuối
+    </dt>
+    <dd class="col-sm-8">
+@Html.DisplayFor(model => model.LastLogin)
+    </dd>
+          <<dt class="col-sm-4">
+        Trạng Thái
+    </dt>
+    <dd class="col-sm-8">
+@Html.DisplayFor(model => model.Active)
+    </dd>
+    <dt class="col-sm-4">
+        Vị Trí
+    </dt>
+    <dd class="col-sm-8">
+@Html.DisplayFor(model => model.Location.LocationId)
+    </dd>
+    -->

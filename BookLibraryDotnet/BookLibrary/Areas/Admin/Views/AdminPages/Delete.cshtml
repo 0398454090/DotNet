@@ -1,0 +1,46 @@
+﻿@model BookLibrary.Models.Page
+
+@{
+    ViewData["Title"] = "Xóa trang";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2 class="text-center mb-4">Xóa trang</h2>
+
+<div class="container mt-4">
+    <h3 class="text-danger text-center">Bạn có chắc chắn muốn xóa trang này không?</h3>
+    <div>
+        <h4 class="mb-3">Thông tin trang</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-3">Tên trang</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.PageName)</dd>
+
+            <dt class="col-sm-3">Hình ảnh</dt>
+            <dd class="col-sm-9">
+                @if (!string.IsNullOrEmpty(Model.Thumb))
+                {
+                    <img src="@Url.Content(Model.Thumb)" alt="Hình ảnh" class="img-fluid rounded" style="max-width: 200px; height: auto;" />
+                }
+                else
+                {
+                    <p>Không có hình ảnh</p>
+                }
+            </dd>
+
+            <dt class="col-sm-3">Trạng thái</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Published)</dd>
+
+            <dt class="col-sm-3">Ngày tạo</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.CreateDate)</dd>
+        </dl>
+
+        <div class="text-end">
+            <form asp-action="Delete" method="post" class="d-inline">
+                <input type="hidden" asp-for="PageId" />
+                <input type="submit" value="Xóa trang" class="btn btn-danger me-2" />
+            </form>
+            <a class="btn btn-outline-secondary" asp-action="Index">Quay lại danh sách</a>
+        </div>
+    </div>
+</div>

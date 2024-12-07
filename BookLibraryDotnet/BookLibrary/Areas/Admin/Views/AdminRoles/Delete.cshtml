@@ -1,0 +1,57 @@
+﻿@model BookLibrary.Models.Role
+
+@{
+    ViewData["Title"] = "Xác nhận xóa quyền truy cập";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item">
+                <i class="anticon anticon-home m-r-5" style="color: #007bff;"></i>Home
+            </a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="AdminRoles" asp-action="Index">Danh Sách Quyền Truy Cập</a>
+            <span class="breadcrumb-item active">Chỉnh Sửa Quyền Truy Cập</span>
+        </nav>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h4 class="card-title text-dark font-weight-bold mb-4">Xác nhận xóa quyền truy cập</h4>
+        <div class="table-responsive">
+            <table class="table table-bordered product-info-table m-t-20">
+                <tbody>
+                    <tr>
+                        <td class="font-weight-bold">ID:</td>
+                        <td class="text-dark font-weight-semibold">@Model.RoleId</td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold">Tên quyền truy cập:</td>
+                        <td class="text-dark">@Model.RoleName</td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold">Mô tả:</td>
+                        <td class="text-muted">@Model.Description</td>
+                    </tr>
+            
+                    <tr>
+                        <td>Xác nhận xóa:</td>
+                        <td>
+                            <form asp-action="Delete" asp-route-id="@Model.RoleId" onsubmit="return confirm('Bạn có chắc chắn muốn xóa quyền này không?');">
+                                <input type="hidden" asp-for="RoleId" />
+                                <input type="submit" value="Xác nhận xóa" class="btn btn-danger" />
+                                <a href="@Url.Action("Index", "AdminRoles")" class="btn btn-secondary">Hủy</a>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+

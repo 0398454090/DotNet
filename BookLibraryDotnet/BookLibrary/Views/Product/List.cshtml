@@ -1,0 +1,263 @@
+﻿
+@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<BookLibrary.Models.Product>
+@{
+    var category = ViewBag.CurrentCat;
+    ViewData["Title"] = category.Title + " " + ViewBag.CurrentPage; 
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+    int PageCurrent = ViewBag.CurrentPage;
+    int PageNext = PageCurrent + 1; 
+}
+
+<body>
+    <div class="breadcrumb-area breadcrumb-height" style="background-image: url('~/assets/images/breadcrumb/bg/1-1-1920x.jpg');">
+        <div class="container h-100">
+            <div class="row h-100">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-item" style="text-align: center; padding: 20px 0;">
+                        <h1 class="breadcrumb-heading" style="font-size: 2em; margin-bottom: 10px;">@category.CatName</h1>
+                        <ul style="list-style-type: none; padding: 0; display: inline;">
+                            <li style="display: inline;">
+                                <a href="javascript:history.back()" style="text-decoration: none; color: #000;">
+                                    <i class="fa fa-arrow-left" style="color: #007bff;"></i> Quay lại <i class="pe-7s-angle-right"></i>
+                                </a>
+                            </li>
+                            <li style="display: inline; padding: 0 10px;">
+                                <a href="/" style="text-decoration: none; color: #000;">
+                                    <i class="fa fa-home" style="color: #28a745;"></i> Home <i class="pe-7s-angle-right"></i>
+                                </a>
+                            </li>
+                            <li style="display: inline; padding: 0 10px;">@category.CatName</li>
+                        </ul>
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="tg-wrapper" class="tg-wrapper tg-haslayout">
+        <main id="tg-main" class="tg-main tg-haslayout">
+            <div class="tg-sectionspace tg-haslayout">
+                <div class="container">
+                    <div class="row">
+                        <div id="tg-twocolumns" class="tg-twocolumns">
+                            <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9 pull-right">
+                                <div id="tg-content" class="tg-content">
+                                    <div class="tg-products">
+                                        <div class="tg-productgrid">
+                                            <div class="tg-refinesearch">
+                                                <span>Hiện @Model.Count() trong tổng số @Model.TotalItemCount sản phẩm</span>
+                                            </div>
+
+                                            <div class="row">
+                                                @if (Model != null && Model.Count() > 0)
+                                                {
+                                                    foreach (var item in Model)
+                                                    {
+                                                        string url = $"/{item.Alias}--{item.ProductId}.html"; 
+                                                        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+                                                            <div class="tg-postbook">
+                                                                <figure class="tg-featureimg">
+                                                                    <a href="@url">
+                                                                        <div class="tg-bookimg">
+                                                                            <div class="tg-frontcover">
+                                                                                <img src="@item.Thumb" alt="@item.ProductName" class="img-responsive">
+                                                                            </div>
+                                                                        </div>
+                                                                    </a>
+                                                                </figure>
+
+                                                                <div class="tg-postbookcontent">
+                                                                    <ul class="tg-bookscategories">
+                                                                        <li><a href="@url">@item.Cat</a></li>
+                                                                    </ul>
+                                                                    <div class="tg-themetagbox"><span class="tg-themetag">sale</span></div>
+                                                                    <div class="tg-booktitle" style="margin-bottom: 10px">
+                                                                        <h3><a href="@url">@Truncate(item.ProductName, 30)</a></h3>
+                                                                    </div>
+                                                                    <span class="tg-bookwriter">Tác giả: <a href="@url">@Truncate(item.AuthorName, 20)</a></span>
+                                                                    <span class="tg-stars" style="margin-bottom: 10px"><span></span></span>
+                                                                    <span class="tg-bookprice" style="margin-bottom: 10px;">
+                                                                        <ins>
+                                                                            <span id="productPrice" style="color: #ff5722; font-size: 26px;">
+                                                                                @(item.Price.HasValue ? item.Price.Value.ToString("N0") : "Không có dữ liệu") VND
+                                                                            </span>
+                                                                        </ins>
+                                                                    </span>
+                                                                    <a class="tg-btn tg-btnstyletwo add-to-cart" data-product-id="@item.ProductId">
+                                                                        <span class="btn-content">
+                                                                            <i class="fa fa-shopping-basket"></i>
+                                                                            <em>Thêm giỏ hàng</em>
+                                                                        </span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="pagination-area pt-10">
+                                        <ul class="pagination">
+                                            @if (Model.HasPreviousPage)
+                                            {
+                                                <li class="page-item">
+                                                    <a class="page-link" href="@Url.Action("List", "Product", new { Alias = category.Alias, page = Model.PageNumber - 1 })" aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                    </a>
+                                                </li>
+                                            }
+
+                                            @for (int i = 1; i <= Model.PageCount; i++)
+                                            {
+                                                <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                                                    <a class="page-link" href="@Url.Action("List", "Product", new { Alias = category.Alias, page = i })">@i</a>
+                                                </li>
+                                            }
+
+                                            @if (Model.HasNextPage)
+                                            {
+                                                <li class="page-item">
+                                                    <a class="page-link" href="@Url.Action("List", "Product", new { Alias = category.Alias, page = Model.PageNumber + 1 })" aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;</span>
+                                                    </a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 pull-left">
+                                <aside id="tg-sidebar" class="tg-sidebar">
+                                    <div class="tg-widget tg-widgettrending">
+                                        <div class="tg-widgettitle">
+                                            <h3>Sản phẩm thịnh hành</h3>
+                                        </div>
+                                        <div class="tg-widgetcontent">
+                                            <ul>
+                                                @if (Model != null && Model.Count() > 0)
+                                                {
+                                                    foreach (var item in Model)
+                                                    {
+                                                        string url = $"/{item.Alias}--{item.ProductId}.html"; 
+                                                        <li>
+                                                            <article class="tg-post">
+                                                                <figure><a href="@url"><img src="@item.Thumb" alt="@item.ProductName" class="img-responsive"></a></figure>
+                                                                <div class="tg-postcontent">
+                                                                    <div class="tg-posttitle">
+                                                                        <h3><a href="@url">@item.ProductName</a></h3>
+                                                                    </div>
+                                                                    <span class="tg-bookwriter">Tác giả: <a href="@url">@item.AuthorName</a></span>
+                                                                </div>
+                                                            </article>
+                                                        </li>
+                                                    }
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </aside>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+
+@functions {
+    public string Truncate(string value, int maxLength)
+    {
+        if (string.IsNullOrEmpty(value) || value.Length <= maxLength)
+        {
+            return value; 
+        }
+        return value.Substring(0, maxLength) + "...";
+    }
+}
+
+<style>
+    .tg-postbook {
+        border-radius: 4px;
+        overflow: hidden;
+        margin: 10px 0;
+        background-color: white;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .tg-featureimg {
+        max-width: 100%;
+        height: 200px;
+    }
+
+    .tg-bookimg {
+        width: 100%; 
+        height: 200px; 
+    }
+
+    .tg-featureimg img {
+        width: 100%;
+        height: 200px; 
+        object-fit: contain;
+    }
+
+    .tg-postbookcontent {
+        padding: 10px;
+    }
+
+    .tg-booktitle h3,
+    .tg-bookwriter {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+
+    .tg-pagination {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0; 
+    }
+
+
+
+</style>
+
+<script>
+    $(document).ready(function () {
+     
+        $(".add-to-cart").on("click", function (e) {
+            e.preventDefault();  
+
+            var productId = $(this).data("product-id");  
+
+            $.ajax({
+                url: '/api/cart/add',  
+                type: 'POST',
+                data: {
+                    productID: productId,  
+                    amount: 1 
+                },
+                success: function (response) {
+                    if (response.success) {
+                    
+                        alert("Sản phẩm đã được thêm vào giỏ hàng!");
+                    } else {
+                        alert("Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng.");
+                    }
+                },
+                error: function () {
+                    alert("Có lỗi xảy ra. Vui lòng thử lại.");
+                }
+            });
+        });
+    });
+
+</script>

@@ -1,0 +1,208 @@
+﻿
+<style>
+    .tg-logo {
+        width: 210px; 
+        height: auto;
+        object-fit: contain;
+    }
+    .profile-img {
+        width: 40px; 
+        height: 40px; 
+        border-radius: 50%; 
+        object-fit: cover; 
+    
+    }
+
+    .tg-themedropdownmenu {
+        list-style-type: none; /* Xóa ký hiệu gạch đầu dòng */
+        margin: 10px;
+        padding: 0;
+    }
+
+        .tg-themedropdownmenu li {
+            display: block;
+            border-bottom: 1px solid #ddd; /* Đường kẻ giữa các mục */
+        }
+
+            .tg-themedropdownmenu li:last-child {
+                border-bottom: none; /* Xóa đường kẻ ở mục cuối */
+            }
+
+            .tg-themedropdownmenu li a {
+                display: block;
+                width: 100%;
+                padding: 10px 15px;
+                text-decoration: none;
+                color: #333;
+                transition: background-color 0.2s;
+            }
+
+                .tg-themedropdownmenu li a:hover {
+                    background-color: #f0f0f0;
+                }
+
+
+</style>
+<!--************************************
+        Bắt đầu Header
+*************************************-->
+<header id="tg-header" class="tg-header tg-haslayout">
+        <div class="tg-topbar">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <ul class="tg-addnav">
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <i class="icon-envelope"></i>
+                                    <em>Contact</em>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    <i class="icon-question-circle"></i>
+                                    <em>Help</em>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="dropdown tg-themedropdown tg-currencydropdown">
+                            <a href="javascript:void(0);" id="tg-currenty" class="tg-btnthemedropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="icon-earth"></i>
+                                <span>Currency</span>
+                            </a>
+                            <ul class="dropdown-menu tg-themedropdownmenu" aria-labelledby="tg-currenty">
+                                <li>
+                                    <a href="javascript:void(0);">
+                                        <i>£</i>
+                                        <span>British Pound</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">
+                                        <i>$</i>
+                                        <span>Us Dollar</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">
+                                        <i>€</i>
+                                        <span>Euro</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tg-userlogin dropdown">
+
+                        <div class="dropdown tg-themedropdown tg-profiledropdown">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <!-- Khi người dùng đã đăng nhập -->
+                                <a href="javascript:void(0);" id="tg-profile" class="tg-btnthemedropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img src="https://haycafe.vn/wp-content/uploads/2021/12/hinh-anh-anime-nam-1.jpg" alt="Profile Image" class="profile-img">
+                                
+                                </a>
+
+                                <ul class="dropdown-menu tg-themedropdownmenu" aria-labelledby="tg-profile">
+                                    <li><a href="/tai-khoan-cua-toi.html">Tài khoản của tôi</a></li>
+                                    <li><a href="/dang-xuat.html">Đăng xuất</a></li>
+                                </ul>
+
+
+                            }
+                            else
+                            {
+                                <!-- Khi người dùng chưa đăng nhập -->
+                                <div class="login-container">
+                                    <a href="/dang-ky.html" class="btn btn-primary">Đăng ký</a>
+                                    <a href="/dang-nhap.html" class="btn btn-secondary">Đăng nhập</a>
+                                </div>
+                            }
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <div class="tg-middlecontainer">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <strong class="tg-logo"><a href="/"><img src="~/assetsui/images/logo-02.png"s alt="company name here"></a></strong>
+                    <div class="tg-wishlistandcart">
+                        <div class="dropdown tg-themedropdown tg-wishlistdropdown">
+                            <a href="javascript:void(0);" id="tg-wishlisst" class="tg-btnthemedropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="tg-themebadge">3</span>
+                                <i class="icon-heart"></i>
+                                <span>Wishlist</span>
+                            </a>
+                            <div class="dropdown-menu tg-themedropdownmenu" aria-labelledby="tg-wishlisst">
+                                <div class="tg-description"><p>No products were added to the wishlist!</p></div>
+                            </div>
+                        </div>
+
+                            <div class="dropdown tg-themedropdown tg-minicartdropdown">
+                                @await Component.InvokeAsync("NumberCart")
+                                <div class="dropdown-menu tg-themedropdownmenu" aria-labelledby="tg-minicart"
+                                     style="padding: 10px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); background: #f9f9f9;">
+                                    @await Component.InvokeAsync("HeaderCart")
+                                    
+                                </div>
+                            </div>
+
+                    </div>
+                        <div class="tg-searchbox">
+                            <form class="tg-formtheme tg-formsearch" asp-action="Search" method="get">
+                                <fieldset>
+                                    <input type="text" name="search" class="typeahead form-control" placeholder="Tìm kiếm theo tên...">
+                                    <button type="submit"><i class="icon-magnifier"></i></button>
+                                </fieldset>
+                                <a href="javascript:void(0);">+  Advanced Search</a>
+                            </form>
+                        </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+     
+
+        <div class="tg-navigationarea">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <nav id="tg-nav" class="tg-nav">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#tg-navigation" aria-expanded="false">
+                                    <span class="sr-only">Chuyển đổi điều hướng</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                            </div>
+                            <div id="tg-navigation" class="collapse navbar-collapse tg-navigation">
+                                <ul>
+                                    <li class="current-menu-item">
+                                        <a href="/">Trang chủ</a>
+                                    </li>
+                                    <li><a asp-controller="Home" asp-action="Contact">Liên hệ</a></li>
+                                    <li>
+                                        <a href="/page/nhung-cuon-sach-hay">Tin tức</a>
+                                    </li>
+
+                                    <li><a asp-controller="Home" asp-action="About">Về chúng tôi</a></li>
+                                    <li class="current-menu-item">
+                                        <a asp-controller="Product" asp-action="BookList">Cửa hàng</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+          
+</header>
+<!--************************************
+        Kết thúc Header
+*************************************-->

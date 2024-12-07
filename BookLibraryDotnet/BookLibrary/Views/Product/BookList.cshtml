@@ -1,0 +1,251 @@
+﻿@using PagedList.Core.Mvc
+@model PagedList.Core.IPagedList<BookLibrary.Models.Product>
+@{
+    ViewData["Title"] = "BookList - " + ViewBag.CurrentPage;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int PageCurrent = ViewBag.CurrentPage;
+}
+
+<body>
+    <div class="container mt-4">
+        <!-- Inner Banner Start -->
+        <div class="tg-innerbanner tg-haslayout tg-parallax tg-bginnerbanner"
+             data-z-index="-20" data-appear-top-offset="600" data-parallax="scroll"
+             style="background-image: url('https://hanoispiritofplace.com/wp-content/uploads/2017/12/hinh-anh-cuon-sach-dep-1.jpg'); background-size: cover; background-position: center;">
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="tg-innerbannercontent">
+                            <h1>Cửa hàng</h1>
+                            <ol class="tg-breadcrumb">
+                           
+                                <li class="tg-active">Cửa hàng</li>
+                                <li><a href="/">Trang chủ</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h1 class="text-center">Danh sách Sản phẩm</h1>
+
+        <!-- Alert for total items -->
+        <div class="alert alert-info text-center">
+            <span>Hiện @Model.Count() trong tổng số @Model.TotalItemCount sản phẩm</span>
+        </div>
+
+        <!-- Product List -->
+        <div class="row">
+            @if (Model != null && Model.Count() > 0)
+            {
+                foreach (var item in Model)
+                {
+                    string url = $"/{item.Alias}--{item.ProductId}.html";
+                    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                        <div class="card h-100">
+                            <a href="@url">
+                                <img src="@item.Thumb" alt="@item.ProductName" class="card-img-top">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="@url">@Truncate(item.ProductName, 30)</a>
+                                </h5>
+                                <p class="card-text">
+                                    Tác giả:
+                                    <a href="@url">@Truncate(item.ProductName, 30)
+                                </p>
+
+                                <p class="text-danger" style="font-size: 20px;">
+                                    @(item.Price.HasValue ? item.Price.Value.ToString("N0") : "Không có dữ liệu") VND
+                                </p>
+                                <a class="btn btn-success add-to-cart" data-product-id="@item.ProductId">
+                                    <i class="fa fa-shopping-basket"></i> Thêm giỏ hàng
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+
+        <!-- Pagination -->
+        <nav aria-label="pagination-area pt-10" class="text-center">
+            <ul class="pagination justify-content-center">
+                @if (Model.PageCount > 1)
+                {
+                    if (Model.HasPreviousPage)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="@Url.Action("BookList", new { page = Model.PageNumber - 1 })" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    }
+
+                    @for (int i = 1; i <= Model.PageCount; i++)
+                    {
+                        if (i <= 3 || i >= Model.PageCount - 2 || (i >= Model.PageNumber - 1 && i <= Model.PageNumber + 1))
+                        {
+                            if (i == Model.PageNumber)
+                            {
+                                <li class="page-item active" aria-current="page">
+                                    <span class="page-link">@i</span>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("BookList", new { page = i })">@i</a>
+                                </li>
+                            }
+                        }
+                        else if (i == 4 && Model.PageNumber > 4)
+                        {
+                            <li class="page-item"><span class="page-link">...</span></li>
+                        }
+                        else if (i == Model.PageCount - 3 && Model.PageNumber < Model.PageCount - 3)
+                        {
+                            <li class="page-item"><span class="page-link">...</span></li>
+                        }
+                    }
+
+                    if (Model.HasNextPage)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="@Url.Action("BookList", new { page = Model.PageNumber + 1 })" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    }
+                }
+            </ul>
+        </nav>
+
+    </div>
+</body>
+
+@functions {
+    public string Truncate(string value, int maxLength)
+    {
+        if (string.IsNullOrEmpty(value) || value.Length <= maxLength)
+        {
+            return value;
+        }
+        return value.Substring(0, maxLength) + "...";
+    }
+}
+<style>
+    /* Card styling */
+    .card {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        background-color: #fff;
+        border: 1px solid #007bff; /* Blue border */
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Slight shadow for depth */
+        margin: 15px;
+        padding: 15px;
+        transition: transform 0.2s, box-shadow 0.2s; /* Transition for hover effect */
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+    }
+
+    .card img {
+        height: 200px;
+        object-fit: contain;
+        margin: 10px 0;
+        border-radius: 5px;
+    }
+
+    .card-body {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        text-align: center;
+    }
+
+    .card-title {
+        margin-bottom: 0.5rem;
+        height: 40px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .card-text {
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+    }
+
+    
+
+    /* Product container styling */
+    .product-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .product-item {
+        flex: 1 0 21%;
+        margin: 15px;
+        min-width: 250px;
+        max-width: 250px;
+    }
+
+    /* Pagination styling */
+    .pagination {
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: #fff;
+    }
+
+
+</style>
+<script>
+    $(document).ready(function () {
+        // Attach click event handler to the "Add to Cart" buttons
+        $(".add-to-cart").on("click", function (e) {
+            e.preventDefault();  // Prevent the default action
+
+            // Get the product ID from the data attribute
+            var productId = $(this).data("product-id");
+
+            // Send an AJAX POST request to add the product to the cart
+            $.ajax({
+                url: '/api/cart/add',  // The API endpoint for adding to cart
+                type: 'POST',
+                data: {
+                    productID: productId,  // Send the product ID
+                    amount: 1  // Optionally send the amount, you can modify this if needed
+                },
+                success: function (response) {
+                    if (response.success) {
+                        // Display a success message (you can replace this with any method you prefer)
+                        alert("Sản phẩm đã được thêm vào giỏ hàng!");
+                        // Optionally, you can update the cart icon or cart count dynamically here
+                    } else {
+                        alert("Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng.");
+                    }
+                },
+                error: function () {
+                    alert("Có lỗi xảy ra. Vui lòng thử lại.");
+                }
+            });
+        });
+    });
+
+</script>

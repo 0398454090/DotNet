@@ -1,0 +1,44 @@
+﻿@model BookLibrary.Models.Role
+
+@{
+    ViewData["Title"] = "Chỉnh sửa quyền truy cập";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="page-header mb-4">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item">
+                <i class="anticon anticon-home m-r-5"></i>Home
+            </a>
+            <a class="breadcrumb-item" asp-area="Admin" asp-controller="AdminRoles" asp-action="Index">Danh Sách Quyền Truy Cập</a>
+            <span class="breadcrumb-item active">Chỉnh Sửa Quyền Truy Cập</span>
+        </nav>
+    </div>
+</div>
+
+<form asp-action="Edit" asp-route-id="@Model.RoleId" method="post" class="p-4 border rounded shadow-sm">
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+    <input type="hidden" asp-for="RoleId" />
+
+    <div class="form-group mb-4">
+        <label class="form-label" for="roleName">Tên Quyền Truy Cập</label>
+        <input type="text" class="form-control form-control-lg" id="roleName" asp-for="RoleName" placeholder="Nhập tên quyền" required>
+        <small class="form-text text-muted">Vui lòng nhập tên quyền truy cập hợp lệ (tối thiểu 3 ký tự).</small>
+    </div>
+
+    <div class="form-group mb-4">
+        <label class="form-label" for="description">Mô Tả</label>
+        <input type="text" class="form-control form-control-lg" id="description" asp-for="Description" placeholder="Nhập mô tả" required>
+        <small class="form-text text-muted">Mô tả ngắn gọn về quyền truy cập này.</small>
+    </div>
+
+    <div class="form-group d-flex justify-content-between mt-4">
+        <a href="@Url.Action("Index", "AdminRoles")" class="btn btn-secondary btn-sm">Hủy</a>
+        <button type="submit" class="btn btn-primary btn-sm">Lưu Thay Đổi</button>
+       
+    </div>
+
+
+</form>

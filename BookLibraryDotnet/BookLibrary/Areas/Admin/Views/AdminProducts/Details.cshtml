@@ -1,0 +1,125 @@
+﻿@model BookLibrary.Models.Product
+
+@{
+    ViewData["Title"] = "Product Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h4 class="mb-3 text-center">Product Details</h4>
+
+<div class="card shadow-lg rounded">
+    <div class="row no-gutters">
+        <div class="col-md-4 d-flex justify-content-center align-items-center">
+            <img src="@Model.Thumb" class="card-img rounded shadow" alt="Product Image" style="object-fit: contain ; height: 400px; width: auto;" />
+        </div>
+        <div class="col-md-6 d-flex flex-column justify-content-between">
+            <div class="card-body">
+                <h5 class="card-title text-primary">@Html.DisplayFor(model => model.ProductName)</h5>
+                <p class="card-text text-muted">@Html.DisplayFor(model => model.ShortDesc)</p>
+              
+                <h6 class="mt-3">Mô Tả:</h6>
+                <p class="card-text">@Html.DisplayFor(model => model.Description)</p>
+
+                <p class="card-text">
+                    <strong>Tác Giả:</strong> <span class="text-info">@Html.DisplayFor(model => model.AuthorName)</span>
+                </p>
+
+                <h6 class="mt-3">Thông tin tác giả: </h6>
+                <p class="card-text">@Html.DisplayFor(model => model.AuthorBio)</p>
+                <p class="card-text">
+                    <strong class="text-success">Giá bán:</strong> @Html.DisplayFor(model => model.Price) <br />
+                </p>
+                <div class="mt-3">
+                    @if (Model.Active)
+                    {
+                        <span class="badge badge-success rounded-pill">Active</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger rounded-pill">Inactive</span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4">
+    <h5 class="text-primary">Thông Tin Bổ Sung</h5>
+    <div class="row">
+        <div class="col-md-12">
+            <dl class="row border p-4 rounded shadow-sm custom-dl">
+                <dt class="col-sm-4 font-weight-bold">@Html.DisplayNameFor(model => model.DateCreated)</dt>
+                <dd class="col-sm-8 text-muted">@Html.DisplayFor(model => model.DateCreated)</dd>
+
+                <dt class="col-sm-4 font-weight-bold">@Html.DisplayNameFor(model => model.DateModified)</dt>
+                <dd class="col-sm-8 text-muted">@Html.DisplayFor(model => model.DateModified)</dd>
+
+                <dt class="col-sm-4 font-weight-bold">@Html.DisplayNameFor(model => model.Tags)</dt>
+                <dd class="col-sm-8 text-muted">@Html.DisplayFor(model => model.Tags)</dd>
+
+                <dt class="col-sm-4 font-weight-bold">@Html.DisplayNameFor(model => model.Cat.CatId)</dt>
+                <dd class="col-sm-8 text-muted">@Html.DisplayFor(model => model.Cat.CatId)</dd>
+
+                <dt class="col-sm-4 font-weight-bold">@Html.DisplayNameFor(model => model.MetaDesc)</dt>
+                <dd class="col-sm-8 text-muted">@Html.DisplayFor(model => model.MetaDesc)</dd>
+            </dl>
+        </div>
+    </div>
+</div>
+
+<style>
+   
+</style>
+
+<div class="mt-4 text-left">
+    <a asp-action="Edit" asp-route-id="@Model.ProductId" class="btn btn-outline-warning btn-sm shadow custom-btn">
+        Chỉnh Sửa
+    </a>
+    <a asp-action="Index" asp-route-id="@Model.ProductId" class="btn btn-outline-secondary btn-sm shadow custom-btn">
+        Quay Lại Danh Sách
+    </a>
+    
+    <div style="height: 50px;"></div>
+</div>
+
+<style>
+    /* Hiệu ứng hover cho hình ảnh */
+    .card-img {
+        padding-bottom: 20px;
+        padding-top: 20px;
+        transition: transform 0.3s;
+    }
+
+        .card-img:hover {
+            transform: scale(1.05);
+        }
+
+
+    .custom-dl dt {
+        margin-bottom: 10px; /* Khoảng cách giữa các dòng */
+    }
+
+    .custom-dl dd {
+        margin-bottom: 10px; /* Khoảng cách giữa các định nghĩa */
+    }
+
+    .custom-btn {
+        font-size: 1rem; /* Kích thước chữ lớn hơn một chút */
+        padding: 0.5rem 1rem; /* Padding cho nút */
+    }
+
+    /* Hiệu ứng hover cho nút Chỉnh Sửa */
+    .btn-outline-warning:hover {
+        background-color: #ffc107; /* Màu nền khi hover */
+        color: white; /* Màu chữ khi hover */
+    }
+
+    /* Hiệu ứng hover cho nút Quay Lại Danh Sách */
+    .btn-outline-secondary:hover {
+        background-color: #6c757d; /* Màu nền khi hover */
+        color: white; /* Màu chữ khi hover */
+    }
+
+   
+</style>

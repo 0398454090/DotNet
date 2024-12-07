@@ -1,0 +1,118 @@
+﻿@model List<Product>
+@using PagedList.Core.Mvc
+
+<body>
+    <div id="tg-wrapper" class="tg-wrapper tg-haslayout">
+        <main id="tg-main" class="tg-main tg-haslayout">
+            <div class="tg-sectionspace tg-haslayout">
+                <div class="container">
+                    <div class="row">
+                        @if (Model != null && Model.Count > 0)
+                        {
+                            foreach (var item in Model)
+                            {
+                                string url = $"/{item.Alias}--{item.ProductId}.html";
+
+                                <div class="product-item col-lg-3 col-md-4 col-sm-6 mb-4">
+                                    <div class="card">
+                                        <div class="product-img">
+                                            <a href="@url">
+                                                <img class="card-img-top img-fluid lazy"
+                                                     src="@item.Thumb"
+                                                     alt="@item.ProductName"
+                                                     loading="lazy" />
+                                            </a>
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="product-name">
+                                                <a href="@url">@item.ProductName</a>
+                                            </h5>
+                                            <div class="price-box">
+                                                <span class="new-price">
+                                                    @(item.Price.HasValue ? item.Price.Value.ToString("#,##0") + " VNĐ" : "Liên hệ")
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+<style>
+    /* Khung sản phẩm */
+    .product-item {
+        margin-bottom: 20px;
+    }
+
+    .card {
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+        overflow: hidden;
+    }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+    /* Ảnh sản phẩm */
+    .product-img {
+        height: 200px;
+        overflow: hidden;
+        text-align: center;
+        background-color: #f9f9f9; /* Nền sáng */
+    }
+
+        .product-img img {
+            height: 100%;
+            width: auto;
+            transition: transform 0.3s;
+        }
+
+        .product-img:hover img {
+            transform: scale(1.1); /* Phóng to ảnh khi hover */
+        }
+
+
+    /* Tên sản phẩm */
+    .product-name {
+        font-size: 16px;
+        font-weight: 500;
+        color: #333;
+        text-overflow: ellipsis; /* Thêm dấu ba chấm nếu vượt quá */
+        overflow: hidden; /* Ẩn nội dung thừa */
+        white-space: nowrap; /* Không cho xuống dòng */
+        text-align: center;
+        margin: 10px 0;
+        height: 50px
+    }
+
+
+    /* Giá sản phẩm */
+    .price-box {
+        font-size: 18px;
+        font-weight: bold;
+        color: red;
+        text-align: center;
+    }
+
+    /* Khung thông tin sản phẩm */
+    .card-body {
+        padding: 15px;
+        background-color: #fff;
+    }
+
+    /* Hiệu ứng hover cho toàn bộ khung */
+    .card:hover {
+        background-color: #fafafa; /* Màu nền thay đổi nhẹ khi hover */
+    }
+
+ </style>

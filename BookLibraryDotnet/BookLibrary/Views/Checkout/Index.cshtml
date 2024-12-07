@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh Toán</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4 ">Thanh Toán</h2>
+        <form id="checkoutForm">
+            <!-- Thông Tin Người Dùng -->
+            <fieldset class="border p-3 mb-4">
+                <legend class="w-auto px-3">Thông Tin Người Nhận</legend>
+                <div class="mb-3">
+                    <label for="FullName" class="form-label">Họ và Tên</label>
+                    <input type="text" class="form-control" id="FullName" name="FullName" placeholder="Nhập họ và tên" required>
+                </div>
+                <div class="mb-3">
+                    <label for="Email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="Email" name="Email" placeholder="Nhập email">
+                </div>
+                <div class="mb-3">
+                    <label for="Phone" class="form-label">Số Điện Thoại</label>
+                    <input type="text" class="form-control" id="Phone" name="Phone" placeholder="Nhập số điện thoại" required>
+                </div>
+                <div class="mb-3">
+                    <label for="Address" class="form-label">Địa Chỉ</label>
+                    <input type="text" class="form-control" id="Address" name="Address" placeholder="Nhập địa chỉ" required>
+                </div>
+            </fieldset>
+
+            <!-- Thông Tin Giao Hàng -->
+            <fieldset class="border p-3 mb-4">
+                <legend class="w-auto px-3">Thông Tin Giao Hàng</legend>
+                <div class="mb-3">
+                    <label for="TinhThanh" class="form-label">Tỉnh/Thành</label>
+                    <select class="form-select" id="TinhThanh" name="TinhThanh" required>
+                        <option value="">Chọn Tỉnh/Thành</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="QuanHuyen" class="form-label">Quận/Huyện</label>
+                    <select class="form-select" id="QuanHuyen" name="QuanHuyen" required>
+                        <option value="">Chọn Quận/Huyện</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="PhuongXa" class="form-label">Phường/Xã</label>
+                    <select class="form-select" id="PhuongXa" name="PhuongXa" required>
+                        <option value="">Chọn Phường/Xã</option>
+                    </select>
+                </div>
+            </fieldset>
+
+            <!-- Phương Thức Thanh Toán -->
+            <fieldset class="border p-3 mb-4">
+                <legend class="w-auto px-3">Phương Thức Thanh Toán</legend>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="paymentMethod" id="cod" value="COD" checked>
+                    <label class="form-check-label" for="cod">Thanh toán khi nhận hàng (COD)</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="paymentMethod" id="bankTransfer" value="BankTransfer">
+                    <label class="form-check-label" for="bankTransfer">Chuyển khoản ngân hàng</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="paymentMethod" id="creditCard" value="CreditCard">
+                    <label class="form-check-label" for="creditCard">Thẻ tín dụng</label>
+                </div>
+            </fieldset>
+
+            <!-- Ghi Chú -->
+            <div class="mb-3">
+                <label for="Note" class="form-label">Ghi Chú</label>
+                <textarea class="form-control" id="Note" name="Note" rows="3" placeholder="Nhập ghi chú"></textarea>
+            </div>
+
+            <!-- Nút Thanh Toán -->
+            <button type="button" class="btn btn-primary w-100" id="submitButton">Thanh Toán</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Xử lý sự kiện khi nhấn nút Thanh Toán
+        document.getElementById("submitButton").addEventListener("click", function () {
+            const form = document.getElementById("checkoutForm");
+            const formData = new FormData(form);
+
+            // Xuất thông tin ra một cửa sổ mới
+            const content = `
+                        <h3>Thông Tin Thanh Toán</h3>
+                        <p><strong>Họ và Tên:</strong> ${formData.get("FullName")}</p>
+                        <p><strong>Email:</strong> ${formData.get("Email")}</p>
+                        <p><strong>Số Điện Thoại:</strong> ${formData.get("Phone")}</p>
+                        <p><strong>Địa Chỉ:</strong> ${formData.get("Address")}</p>
+                        <p><strong>Tỉnh/Thành:</strong> ${formData.get("TinhThanh")}</p>
+                        <p><strong>Quận/Huyện:</strong> ${formData.get("QuanHuyen")}</p>
+                        <p><strong>Phường/Xã:</strong> ${formData.get("PhuongXa")}</p>
+                        <p><strong>Phương Thức Thanh Toán:</strong> ${formData.get("paymentMethod")}</p>
+                        <p><strong>Ghi Chú:</strong> ${formData.get("Note")}</p>
+                    `;
+
+            const newWindow = window.open("", "_blank");
+            newWindow.document.write(content);
+            newWindow.document.close();
+            newWindow.print();
+        });
+
+        // Tải danh sách tỉnh/thành và các cấp liên quan
+        document.addEventListener("DOMContentLoaded", function () {
+            const tinhThanhSelect = document.getElementById("TinhThanh");
+            const quanHuyenSelect = document.getElementById("QuanHuyen");
+            const phuongXaSelect = document.getElementById("PhuongXa");
+
+            // Lấy danh sách tỉnh/thành
+            fetch("https://provinces.open-api.vn/api/")
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(tinh => {
+                        let option = document.createElement("option");
+                        option.value = tinh.code;
+                        option.text = tinh.name;
+                        tinhThanhSelect.add(option);
+                    });
+                });
+
+            // Khi chọn tỉnh/thành, tải danh sách quận/huyện
+            tinhThanhSelect.addEventListener("change", function () {
+                const tinhCode = this.value;
+                quanHuyenSelect.innerHTML = "<option value=''>Chọn Quận/Huyện</option>";
+                phuongXaSelect.innerHTML = "<option value=''>Chọn Phường/Xã</option>";
+                if (tinhCode) {
+                    fetch(`https://provinces.open-api.vn/api/p/${tinhCode}?depth=2`)
+                        .then(response => response.json())
+                        .then(data => {
+                            data.districts.forEach(huyen => {
+                                let option = document.createElement("option");
+                                option.value = huyen.code;
+                                option.text = huyen.name;
+                                quanHuyenSelect.add(option);
+                            });
+                        });
+                }
+            });
+
+            // Khi chọn quận/huyện, tải danh sách phường/xã
+            quanHuyenSelect.addEventListener("change", function () {
+                const huyenCode = this.value;
+                phuongXaSelect.innerHTML = "<option value=''>Chọn Phường/Xã</option>";
+                if (huyenCode) {
+                    fetch(`https://provinces.open-api.vn/api/d/${huyenCode}?depth=2`)
+                        .then(response => response.json())
+                        .then(data => {
+                            data.wards.forEach(xa => {
+                                let option = document.createElement("option");
+                                option.value = xa.code;
+                                option.text = xa.name;
+                                phuongXaSelect.add(option);
+                            });
+                        });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,197 @@
+﻿@model BookLibrary.Models.Product
+
+@{
+    ViewData["Title"] = "Create Product";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml"; // Đảm bảo rằng bạn đã định nghĩa Layout đúng
+}
+
+<div class="container">
+    <h2 class="text-center mt-4">Create New Product</h2>
+    <form asp-action="Create" enctype="multipart/form-data">
+        <!-- Thêm enctype để xử lý file upload -->
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group">
+            <label asp-for="ProductId" class="control-label">Mã sản phẩm</label>
+            <input asp-for="ProductId" class="form-control" placeholder="Enter Product ID" />
+            <span asp-validation-for="ProductId" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ProductName" class="control-label">Tên tác phẩm</label>
+            <input asp-for="ProductName" class="form-control" placeholder="Enter Product Name" />
+            <span asp-validation-for="ProductName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Description" class="control-label">Mô tả</label>
+            <textarea asp-for="Description" id="descriptionEditor" class="form-control" rows="5" placeholder="Enter Product Description"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="CatId" class="control-label">Thể loại</label>
+            <select asp-for="CatId" class="form-control" asp-items="ViewBag.DanhMuc">
+                <option value="">Select Category</option>
+            </select>
+            <span asp-validation-for="CatId" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Price" class="control-label">Giá bán</label>
+            <input asp-for="Price" class="form-control" placeholder="Enter Price" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Discount" class="control-label">Giá giảm</label>
+            <input asp-for="Discount" class="form-control" placeholder="Enter Discount" />
+            <span asp-validation-for="Discount" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Thumb" class="control-label">Tải ảnh</label>
+            <!-- Trường tải file -->
+            <input name="fThumb" type="file" class="form-control-file" asp-for="Thumb" />
+            <span asp-validation-for="Thumb" class="text-danger"></span>
+
+            <!-- Trường nhập văn bản (nếu cần thêm đường dẫn ảnh thủ công) -->
+            <label for="ThumbText" class="mt-3">Hoặc nhập URL ảnh</label>
+            <input asp-for="Thumb" class="form-control" id="ThumbText" />
+            <span asp-validation-for="Thumb" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Video" class="control-label">Video URL</label>
+            <input asp-for="Video" class="form-control" placeholder="Enter Video URL" />
+            <span asp-validation-for="Video" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="DateCreated" class="control-label">Ngày tạo</label>
+            <input asp-for="DateCreated" class="form-control" type="date" />
+            <span asp-validation-for="DateCreated" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="AuthorName" class="control-label">Tên tác giả</label>
+            <input asp-for="AuthorName" class="form-control" placeholder="Enter Author Name" />
+            <span asp-validation-for="AuthorName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="AuthorBio" class="control-label">Thông tin tác giả</label>
+            <textarea asp-for="AuthorBio" id="authorBioEditor" class="form-control" rows="5" placeholder="Nhập thông tin"></textarea>
+            <span asp-validation-for="AuthorBio" class="text-danger"></span>
+        </div>
+
+        <div class="form-group form-check">
+            <input asp-for="BestSellers" class="form-check-input" type="checkbox" />
+            <label class="form-check-label" asp-for="BestSellers">Best Sellers</label>
+        </div>
+        <div class="form-group form-check">
+            <input asp-for="HomeFlag" class="form-check-input" type="checkbox" />
+            <label class="form-check-label" asp-for="HomeFlag">Show on Homepage</label>
+        </div>
+        <div class="form-group form-check">
+            <input asp-for="Active" class="form-check-input" type="checkbox" />
+            <label class="form-check-label" asp-for="Active">Active</label>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Create</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<!-- CKEditor Script -->
+<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+<script>
+    // CKEditor cho mô tả sản phẩm
+    ClassicEditor
+        .create(document.querySelector('#descriptionEditor'), {
+            toolbar: [
+                'heading',        // Tiêu đề
+                'bold',           // In đậm
+                'italic',         // In nghiêng
+                'link',           // Thêm liên kết
+                'bulletedList',   // Danh sách có dấu chấm
+                'numberedList',   // Danh sách có số
+                'blockQuote',     // Trích dẫn
+                'undo',           // Hoàn tác
+                'redo',           // Làm lại
+                'fontSize',       // Thay đổi cỡ chữ
+                'fontColor',      // Thay đổi màu chữ
+                'imageUpload',    // Tải lên hình ảnh
+                'insertTable',    // Chèn bảng
+            ],
+            fontSize: {
+                options: [9, 11, 13, 15, 17, 19, 21]  // Các kích cỡ font tùy chọn
+            },
+            image: {
+                toolbar: ['imageTextAlternative', 'imageStyle:full', 'imageStyle:side'],
+            },
+            fontColor: {
+                colors: [
+                    { color: 'rgb(255, 0, 0)', label: 'Red' },
+                    { color: 'rgb(0, 255, 0)', label: 'Green' },
+                    { color: 'rgb(0, 0, 255)', label: 'Blue' },
+                ]
+            },
+            simpleUpload: {
+                uploadUrl: '/upload',  // Đường dẫn tải lên ảnh (thay thế với URL backend của bạn)
+            },
+            heading: {
+                options: [
+                    { model: 'paragraph', title: 'Normal', class: 'ck-heading_paragraph' },
+                    { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                    { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                    { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' }
+                ]
+            },
+        })
+        .catch(error => {
+            console.error(error);
+        });
+
+    // CKEditor cho mô tả thông tin tác giả
+    ClassicEditor
+        .create(document.querySelector('#authorBioEditor'), {
+            toolbar: [
+                'heading',        // Tiêu đề
+                'bold',           // In đậm
+                'italic',         // In nghiêng
+                'link',           // Thêm liên kết
+                'bulletedList',   // Danh sách có dấu chấm
+                'numberedList',   // Danh sách có số
+                'blockQuote',     // Trích dẫn
+                'undo',           // Hoàn tác
+                'redo',           // Làm lại
+                'fontSize',       // Thay đổi cỡ chữ
+                'fontColor',      // Thay đổi màu chữ
+                'imageUpload',    // Tải lên hình ảnh
+                'insertTable',    // Chèn bảng
+            ],
+            fontSize: {
+                options: [9, 11, 13, 15, 17, 19, 21]
+            },
+            image: {
+                toolbar: ['imageTextAlternative', 'imageStyle:full', 'imageStyle:side'],
+            },
+            simpleUpload: {
+                uploadUrl: '/upload',
+            },
+            heading: {
+                options: [
+                    { model: 'paragraph', title: 'Normal', class: 'ck-heading_paragraph' },
+                    { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                    { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                    { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' }
+                ]
+            },
+        })
+        .catch(error => {
+            console.error(error);
+        });
+</script>

@@ -1,0 +1,189 @@
+﻿@model BookLibrary.Models.Product
+
+@{
+    ViewData["Title"] = Model.Ttile; 
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--************************************
+        Product Detail Start
+*************************************-->
+<div class="tg-innerbanner tg-haslayout tg-parallax tg-bginnerbanner"
+     style="background-image: url('https://hanoispiritofplace.com/wp-content/uploads/2017/12/hinh-anh-cuon-sach-dep-3.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="tg-innerbannercontent">
+                    <h1>Thông tin tác phẩm</h1>
+                    <ol class="tg-breadcrumb">
+                        <li>
+                            <a href="javascript:void(0);" onclick="window.history.back();">
+                                <span style="color: white;">Quay lại</span>
+                            </a>
+                        </li>
+                        <li><a href="/">Trang chủ</a></li>
+                        <li><a href="/BookList.html">Cửa hàng</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="tg-sectionspace tg-haslayout">
+    <div class="container">
+        <div class="row">
+            <div id="tg-twocolumns" class="tg-twocolumns">
+
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                    <div class="tg-postbook" style="max-width: 400px; margin: auto;">
+                        <figure class="tg-featureimg">
+                            <img src="@Model.Thumb" style="width: 100%; height: auto;">
+                        </figure>
+                        <div class="tg-postbookcontent">
+                            <ul class="tg-delevrystock">
+                                <li><i class="icon-rocket"></i><span>Giao hàng miễn phí toàn cầu</span></li>
+                                <li>
+                                    <i class="icon-checkmark-circle"></i><span>
+                                        Thời gian giao hàng: Giao nhanh và uy tín
+                                    </span>
+                                </li>
+                            </ul>
+
+                            <a class="tg-btn tg-active tg-btn-lg add-to-cart-btn"
+                               href="javascript:void(0);"
+                               style="font-size: 14px; padding: 6px 8px;"
+                               data-productid="@Model.ProductId"
+                               data-amount="1">Thêm vào giỏ hàng</a>
+                            <a class="tg-btn tg-active tg-btn-lg favorite-btn" href="javascript:void(0);" style="font-size: 14px; padding: 6px 8px;">Thêm vào danh sách yêu thích</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                    <div class="tg-productcontent">
+                        <ul class="tg-bookscategories">
+                            <li>Thể loại: <a href="/@Model.Cat.Alias" style="font-size: 20px; color: #007bff;">@Model.Cat.CatName</a></li>
+                        </ul>
+
+                        <div class="tg-themetagbox"><span class="tg-themetag">Sale</span></div>
+                        <div class="tg-booktitle">
+                            <h3>@Model.ProductName</h3>
+                        </div>
+
+                        <span class="tg-bookprice" style="margin-bottom: 12px;">
+                            <ins>
+                                <span>Giá tiền:</span>
+                                <span id="productPrice">@(Model.Price.HasValue ? Model.Price.Value.ToString("N0") : "Không có dữ liệu") VND</span>
+                            </ins>
+                        </span>
+
+
+                        <span class="tg-bookwriter">Tác giả: <a href="@Model.AuthorName">@Model.AuthorName</a></span>
+
+
+                        <span class="tg-stars" style="margin-bottom: 12px"><span></span></span>
+                        <span class="tg-addreviews"><a href="javascript:void(0);">Thêm Đánh Giá</a></span>
+                        <div class="tg-description">
+                            <p>@Model.Description</p>
+                        </div>
+                        <div class="tg-sectionhead">
+                            <h2>Thông Tin Chi Tiết</h2>
+                        </div>
+                        <ul class="tg-productinfo">
+                            <li><span>Tên sách:</span><span>@Model.ProductName</span></li>
+                            <li><span>Thể loại:</span><span>@Model.Cat.CatName</span></li>
+                            <li><span>Tên tác giả:</span><span>@Model.AuthorName</span></li>
+                            <li>
+                                <span>Giá tiền:</span>
+                                <span>@(Model.Price.HasValue ? Model.Price.Value.ToString("N0") : "Không có dữ liệu") VND</span>
+                            </li>
+                            <li><span>Thông tin tác giả:</span><span>@Model.AuthorBio</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tg-productdescription">
+                    <div class="col-xs-12">
+                        <div class="tg-sectionhead"></div>
+                        <ul class="tg-themetabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#description" data-toggle="tab">Mô Tả</a></li>
+                            <li role="presentation"><a href="#review" data-toggle="tab">Đánh Giá</a></li>
+                        </ul>
+                        <div class="tg-tab-content tab-content">
+                            <div role="tabpanel" class="tg-tab-pane tab-pane active" id="description">
+                                <div class="tg-description">
+                                    <span>@Model.Description</span>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tg-tab-pane tab-pane" id="review">
+                                <div class="tg-reviewcontent">
+                                    <span>Chưa có đánh giá nào.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--************************************
+        Product Detail End
+*************************************-->
+<script>
+    $(document).ready(function () {
+        // Event listener for add-to-cart button click
+        $(".add-to-cart-btn").click(function (event) {
+            event.preventDefault(); // Ngừng hành vi mặc định (tránh reload trang)
+
+            var productID = $(this).data("productid"); // Lấy ID sản phẩm
+            var amount = $(this).data("amount"); // Lấy số lượng
+
+            // Gửi yêu cầu AJAX thêm sản phẩm vào giỏ hàng
+            $.ajax({
+                url: '/api/cart/add',  // Địa chỉ API thêm sản phẩm vào giỏ hàng
+                method: 'POST',
+                data: {
+                    productID: productID,
+                    amount: amount
+                },
+                success: function (response) {
+                    if (response.success) {
+                        toastr.success("Sản phẩm đã được thêm vào giỏ hàng!");
+
+                        // Cập nhật thông tin giỏ hàng trên trang mà không reload
+                        updateCartInfo();
+                    } else {
+                        toastr.error("Có lỗi khi thêm sản phẩm vào giỏ hàng.");
+                    }
+                },
+                error: function () {
+                    toastr.error("Có lỗi khi thêm sản phẩm vào giỏ hàng.");
+                }
+            });
+        });
+
+        // Hàm cập nhật thông tin giỏ hàng mà không reload trang
+        function updateCartInfo() {
+            $.ajax({
+                url: '/api/cart',  // API để lấy thông tin giỏ hàng
+                method: 'GET',
+                success: function (cartResponse) {
+                    // Giả sử cartResponse.cartCount chứa số lượng sản phẩm trong giỏ hàng
+                    $('#cart-count').text(cartResponse.cartCount);
+                }
+            });
+        }
+    });
+
+
+</script>
